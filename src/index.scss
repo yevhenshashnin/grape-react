@@ -1,33 +1,53 @@
 body {
-  margin: 0;
+    margin: 0;
 }
 
 /* Reset some default styling */
 .editor {
-  .gjs-cv-canvas {
-    top: 0;
-    width: 100%;
-    height: 100%;
-  }
+    .gjs-cv-canvas {
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
 } 
+.editor-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    .editor-canvas {
+        flex-grow: 1;
+    }
+    .panel__right {
+        flex-basis: 230px;
+        position: relative;
+        overflow-y: auto;
+    }
+}
 .blocks {
-  .gjs-block {
-    width: auto;
-    height: auto;
-    min-height: auto;
-  }
+    .gjs-block {
+        width: auto;
+        height: auto;
+        min-height: auto;
+    }
 } 
 
 .panel-top-wrapper {
-  .panel__top {
-    padding: 0;
-    width: 100%;
-    display: flex;
-    position: initial;
-    justify-content: center;
-    justify-content: space-between;
-  }
-  .panel__basic-actions {
-    position: initial;
-  }
+    .panel__top {
+        padding: 0;
+        width: 100%;
+        display: flex;
+        position: initial;
+        justify-content: center;
+        justify-content: space-between;
+        .panel__basic-actions {
+            position: initial;
+        }
+        .panel__switcher {
+            position: initial;
+        }
+        .panel__devices {
+            position: initial;
+        }
+    }
 }

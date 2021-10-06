@@ -6502,7 +6502,7 @@ color: #ffffff;}.hosting-iconblock-3-icon
 }
 </style>
 
-        <div id="div_block-148-87" class="ct-div-block"><div id="div_block-144-87" class="ct-div-block"><header id="_header-2-87" class="oxy-header-wrapper oxy-overlay-header oxy-header"><div id="_header_row-22-87" class="oxy-header-row"><div class="oxy-header-container"><div id="_header_left-23-87" class="oxy-header-left"><a id="link-190-10" class="ct-link" href="https://www.pagerewriter.com/"><img id="image-191-10" alt="Page ReWriter" src="./Page ReWriter - All The Content You Will Ever Need!_files/logo-min.png" class="ct-image"></a></div><div id="_header_center-26-87" class="oxy-header-center"></div><div id="_header_right-28-87" class="oxy-header-right"><div id="div_block-29-87" class="ct-div-block"><a id="link_button-252-10" class="ct-link-button hosting-simple-button" href="https://app.paykickstart.com/checkout/ZnyKdYXBJD0a1kmeJdkqVormO37Pg98G" target="_self">Create a FREE Account!</a><a id="link_button-31-87" class="ct-link-button hosting-white-outline-button" href="https://app.pagerewriter.com/" target="_self">Login</a></div></div></div></div></header>
+<div id="div_block-148-87" class="ct-div-block"><div id="div_block-144-87" class="ct-div-block"><header id="_header-2-87" class="oxy-header-wrapper oxy-overlay-header oxy-header"><div id="_header_row-22-87" class="oxy-header-row"><div class="oxy-header-container"><div id="_header_left-23-87" class="oxy-header-left"><a id="link-190-10" class="ct-link" href="https://www.pagerewriter.com/"><img id="image-191-10" alt="Page ReWriter" src="./Page ReWriter - All The Content You Will Ever Need!_files/logo-min.png" class="ct-image"></a></div><div id="_header_center-26-87" class="oxy-header-center"></div><div id="_header_right-28-87" class="oxy-header-right"><div id="div_block-29-87" class="ct-div-block"><a id="link_button-252-10" class="ct-link-button hosting-simple-button" href="https://app.paykickstart.com/checkout/ZnyKdYXBJD0a1kmeJdkqVormO37Pg98G" target="_self">Create a FREE Account!</a><a id="link_button-31-87" class="ct-link-button hosting-white-outline-button" href="https://app.pagerewriter.com/" target="_self">Login</a></div></div></div></div></header>
 <div id="inner_content-7-87" class="ct-inner-content"><section id="section-2-4" class=" ct-section "><div class="ct-section-inner-wrap"><div id="div_block-1122-4" class="ct-div-block"><h1 id="headline-1119-4" class="ct-headline hosting-heading-one">Quickly Write Ranking Content</h1><div id="text_block-6-4" class="ct-text-block">The only content tool SEO experts will ever need!<br></div><a id="link_button-1460-18" class="ct-link-button hosting-main-button" href="http:">Watch Demo!</a><div id="text_block-11-4" class="ct-text-block ">The Best Content Tool For Writers Who Want To Rank In The Search Engines!</div></div></div></section>            <div tabindex="-1" class="oxy-modal-backdrop center " style="background-color: rgba(0,0,0,0.5);" data-trigger="user_clicks_element" data-trigger-selector="#link_button-1460-18" data-trigger-time="5" data-trigger-time-unit="seconds" data-close-automatically="no" data-close-after-time="10" data-close-after-time-unit="seconds" data-trigger_scroll_amount="50" data-trigger_scroll_direction="down" data-scroll_to_selector="" data-time_inactive="60" data-time-inactive-unit="seconds" data-number_of_clicks="3" data-close_on_esc="on" data-number_of_page_views="3" data-close-after-form-submit="no" data-open-again="always_show" data-open-again-after-days="3">
 
             <div id="modal-1470-18" class="ct-modal"><div id="video-1471-18" class="ct-video">
@@ -6640,6 +6640,13 @@ const Editor = props => {
     const editor = useRef(null);
     const panelTopRef = useRef(null);
     const basicActionsRef = useRef(null);
+    const panelRightRef = useRef(null);
+    const layersContainerRef = useRef(null);
+    const panelSwitcherRef = useRef(null);
+    const stylesContainerRef = useRef(null);
+    const editorRowRef = useRef(null);
+    const traitsContainerRef = useRef(null);
+    const panelDevicesRef = useRef(null);
 
     const init = () => {
         editor.current = grapesjs.init({
@@ -6655,8 +6662,172 @@ const Editor = props => {
             // Disable the storage manager for the moment
             storageManager: false,
             // Avoid any default panel
-            panels: { defaults: [] },
-            plugins: [parserPostCSS],
+            deviceManager: {
+                devices: [
+                    {
+                        name: 'Desktop',
+                        width: '', // default size
+                    }, 
+                    {
+                        name: 'Mobile',
+                        width: '320px', // this value will be used on canvas width
+                        widthMedia: '480px', // this value will be used in CSS @media
+                    }
+                ]
+            },
+            layerManager: {
+                appendTo: layersContainerRef.current
+            },
+            panels: { defaults: [
+                {
+                    id: 'layers',
+                    el: panelRightRef.current,
+                    // Make the panel resizable
+                    resizable: {
+                        maxDim: 350,
+                        minDim: 200,
+                        tc: 0, // Top handler
+                        cl: 1, // Left handler
+                        cr: 0, // Right handler
+                        bc: 0, // Bottom handler
+                        // Being a flex child we need to change `flex-basis` property
+                        // instead of the `width` (default)
+                        keyWidth: 'flex-basis',
+                    },
+                },
+                {
+                    id: 'panel-top',
+                    el: panelTopRef.current,
+                },
+                {
+                    id: 'basic-actions',
+                    el: basicActionsRef.current,
+                    buttons: [
+                        {
+                            id: 'visibility',
+                            active: true, // active by default
+                            className: 'btn-toggle-borders',
+                            label: '<u>B</u>',
+                            command: 'sw-visibility', // Built-in command
+                        }, 
+                        {
+                            id: 'export',
+                            className: 'btn-open-export',
+                            label: 'Exp',
+                            command: 'export-template',
+                            context: 'export-template', // For grouping context of buttons from the same panel
+                        }, 
+                        {
+                            id: 'show-json',
+                            className: 'btn-show-json',
+                            label: 'JSON',
+                            context: 'show-json',
+                            command(editor) {
+                                editor.Modal.setTitle('Components JSON')
+                                    .setContent(`<textarea style="width:100%; height: 250px;">
+                                    ${JSON.stringify(editor.getComponents())}
+                                    </textarea>`)
+                                    .open();
+                            },
+                        }
+                    ],
+                },
+                {
+                    id: 'panel-switcher',
+                    el: panelSwitcherRef.current,
+                    buttons: [
+                        {
+                            id: 'show-layers',
+                            active: true,
+                            label: 'Layers',
+                            command: 'show-layers',
+                            // Once activated disable the possibility to turn it off
+                            togglable: false,
+                        },
+                        {
+                            id: 'show-style',
+                            active: true,
+                            label: 'Styles',
+                            command: 'show-styles',
+                            togglable: false,
+                        },
+                        {
+                            id: 'show-traits',
+                            active: true,
+                            label: 'Traits',
+                            command: 'show-traits',
+                            togglable: false,
+                        }
+                    ],
+                },
+                {
+                    id: 'panel-devices',
+                    el: '.panel__devices',
+                    buttons: [{
+                        id: 'device-desktop',
+                        label: 'D',
+                        command: 'set-device-desktop',
+                        active: true,
+                        togglable: false,
+                    },
+                    {
+                        id: 'device-mobile',
+                        label: 'M',
+                        command: 'set-device-mobile',
+                        togglable: false,
+                    }],
+                }
+            ]},
+            traitManager: {
+                appendTo: traitsContainerRef.current
+            },
+            selectorManager: {
+                appendTo: stylesContainerRef.current
+            },
+            styleManager: {
+                appendTo: stylesContainerRef.current,
+                sectors: [{
+                        name: 'Dimension',
+                        open: false,
+                        // Use built-in properties
+                        buildProps: ['width', 'min-height', 'padding'],
+                        // Use `properties` to define/override single property
+                        properties: [
+                            {
+                                // Type of the input,
+                                // options: integer | radio | select | color | slider | file | composite | stack
+                                type: 'integer',
+                                name: 'The width', // Label for the property
+                                property: 'width', // CSS property (if buildProps contains it will be extended)
+                                units: ['px', '%'], // Units, available only for 'integer' types
+                                defaults: 'auto', // Default value
+                                min: 0, // Min value, available only for 'integer' types
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Extra',
+                        open: false,
+                        buildProps: ['background-color', 'box-shadow', 'custom-prop'],
+                        properties: [
+                            {
+                                id: 'custom-prop',
+                                name: 'Custom Label',
+                                property: 'font-size',
+                                type: 'select',
+                                defaults: '32px',
+                                // List of options, available only for 'select' and 'radio'  types
+                                options: [
+                                    { value: '12px', name: 'Tiny' },
+                                    { value: '18px', name: 'Medium' },
+                                    { value: '32px', name: 'Big' },
+                                ],
+                            }
+                        ]
+                    }
+                ]
+            },
+            plugins: [ parserPostCSS ],
             blockManager: {
                 appendTo: blocksRef.current,
                 blocks: [
@@ -6686,52 +6857,127 @@ const Editor = props => {
                     }
                 ]
             },
-        });
-        editor.current.Panels.addPanel({
-            id: 'panel-top',
-            el: panelTopRef.current,
-        });
-        editor.current.Panels.addPanel({
-            id: 'basic-actions',
-            el: basicActionsRef.current,
-            buttons: [
-                {
-                    id: 'visibility',
-                    active: true, // active by default
-                    className: 'btn-toggle-borders',
-                    label: '<u>B</u>',
-                    command: 'sw-visibility', // Built-in command
-                }, {
-                id: 'export',
-                className: 'btn-open-export',
-                label: 'Exp',
-                command: 'export-template',
-                context: 'export-template', // For grouping context of buttons from the same panel
-                }, {
-                    id: 'show-json',
-                    className: 'btn-show-json',
-                    label: 'JSON',
-                    context: 'show-json',
-                    command(editor) {
-                    editor.Modal.setTitle('Components JSON')
-                        .setContent(`<textarea style="width:100%; height: 250px;">
-                        ${JSON.stringify(editor.getComponents())}
-                        </textarea>`)
-                        .open();
+            commands: {
+                defaults: [
+                    {
+                        id: 'show-layers',
+                        run(editor, sender) {
+                            const lmEl =  layersContainerRef.current;
+                            lmEl.style.display = '';
+                        },
+                        stop(editor, sender) {
+                            const lmEl =  layersContainerRef.current;
+                            lmEl.style.display = 'none';
+                        }
                     },
-                }
-                ],
-            });
+                    {
+                        id: 'show-styles',
+                        run(editor, sender) {
+                            const smEl = stylesContainerRef.current;
+                            smEl.style.display = '';
+                        },
+                        stop(editor, sender) {
+                            const smEl = stylesContainerRef.current;
+                            smEl.style.display = 'none';
+                        }
+                    },
+                    {
+                        id: 'show-traits',
+                        run(editor, sender) {
+                            traitsContainerRef.current.style.display = '';
+                        },
+                        stop(editor, sender) {
+                            traitsContainerRef.current.style.display = 'none';
+                        },
+                    },
+                    {
+                        id: 'set-device-desktop',
+                        run: editor => editor.setDevice('Desktop')
+                    },
+                    {
+                        id: 'set-device-mobile',
+                        run: editor => editor.setDevice('Mobile')
+                    }
+                ]
+            }
+        });
+        // editor.current.Commands.add('show-layers', {
+        //     run(editor, sender) {
+        //         const lmEl = layersContainerRef.current;
+        //         lmEl.style.display = '';
+        //     },
+        //     stop(editor, sender) {
+        //         const lmEl = layersContainerRef.current;
+        //         lmEl.style.display = 'none';
+        //     },
+        // });
+        // editor.current.Commands.add('show-styles', {
+        //     run(editor, sender) {
+        //         const smEl = stylesContainerRef.current;
+        //         smEl.style.display = '';
+        //     },
+        //     stop(editor, sender) {
+        //         const smEl = stylesContainerRef.current;
+        //         smEl.style.display = 'none';
+        //     },
+        // });
+        //  use this you want tot add panels after init
+        // editor.current.Panels.addPanel({
+        //     id: 'panel-top',
+        //     el: panelTopRef.current,
+        // });
+        // editor.current.Panels.addPanel({
+        //     id: 'basic-actions',
+        //     el: basicActionsRef.current,
+        //     buttons: [
+        //         {
+        //             id: 'visibility',
+        //             active: true, // active by default
+        //             className: 'btn-toggle-borders',
+        //             label: '<u>B</u>',
+        //             command: 'sw-visibility', // Built-in command
+        //         }, {
+        //         id: 'export',
+        //         className: 'btn-open-export',
+        //         label: 'Exp',
+        //         command: 'export-template',
+        //         context: 'export-template', // For grouping context of buttons from the same panel
+        //         }, {
+        //             id: 'show-json',
+        //             className: 'btn-show-json',
+        //             label: 'JSON',
+        //             context: 'show-json',
+        //             command(editor) {
+        //             editor.Modal.setTitle('Components JSON')
+        //                 .setContent(`<textarea style="width:100%; height: 250px;">
+        //                 ${JSON.stringify(editor.getComponents())}
+        //                 </textarea>`)
+        //                 .open();
+        //             },
+        //         }
+        //         ],
+        //     });
     }
     
     return (
         <>
             <div className="panel-top-wrapper">
                 <div ref={panelTopRef} className="panel__top">
-                    <div ref={basicActionsRef} className="panel__basic-actions"></div>
+                    <div ref={basicActionsRef} className="panel__basic-actions"/>
+                    <div ref={panelDevicesRef} className="panel__devices"/>
+                    <div ref={panelSwitcherRef} className="panel__switcher"/>
                 </div>
             </div>
-            <div ref={editorRef} className="editor" dangerouslySetInnerHTML={{__html: htmlString}} />
+            <div ref={editorRowRef} className="editor-row">
+                <div className="editor-canvas">
+                    <div ref={editorRef} className="editor" dangerouslySetInnerHTML={{__html: htmlString}}/>
+                </div>
+                <div ref={panelRightRef} className="panel__right">
+                    <div ref={layersContainerRef} className="layers-container"/>
+                    <div ref={stylesContainerRef} className="styles-container"/>
+                    <div ref={traitsContainerRef} className="traits-container"/>
+                </div>
+            </div>
             <div ref={blocksRef} className="blocks"></div>
         </>
     )
